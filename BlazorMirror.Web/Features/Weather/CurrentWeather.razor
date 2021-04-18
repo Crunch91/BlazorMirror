@@ -1,0 +1,76 @@
+﻿@using System.Timers
+@inject AccuWeatherApi AccuWeatherApi
+@implements IDisposable
+
+@if (CurrentConditions != null)
+{
+    <div>
+        <div class="retrieval-datetime">
+            Updated: @CurrentConditions.DateTime.ToString("g")
+        </div>
+        <div class="row">
+            <div class="col temp">
+                @CurrentConditions.Temperature.Value&#176;@CurrentConditions.Temperature.Unit
+            </div>
+        </div>
+        <div class="row conditions float-right">
+            <div class="col">
+                <div class="label">Condition</div>
+                <div class="value">
+                    <img src="@CurrentConditions.DescriptionIconLocation" />
+                </div>
+                <div class="desc">@CurrentConditions.Description</div>
+            </div>
+            <div class="col">
+                <div class="label">UV</div>
+                <div class="value">@CurrentConditions.Uv.Index</div>
+                <div class="desc">@CurrentConditions.Uv.IndexDescription</div>
+            </div>
+            <div class="col">
+                <div class="label">Wind</div>
+                <div class="value">@CurrentConditions.Wind.Direction</div>
+            </div>
+            <div class="col">
+                <div class="label">Wind</div>
+                <div class="value">@CurrentConditions.Wind.Speed</div>
+                <div class="desc">@CurrentConditions.Wind.SpeedUnit</div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+}
+
+@code {
+    private Timer _timer;
+    public Weather CurrentConditions { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentConditions = await AccuWeatherApi.GetCurrentConditions();
+
+        _timer = new Timer { Interval = 3600000 };
+        _timer.Elapsed += async (sender, arguments)
+            => await UpdateCurrentConditions(sender, arguments);
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private async Task UpdateCurrentConditions(object sender, ElapsedEventArgs e)
+    {
+        try
+        {
+            CurrentConditions = await AccuWeatherApi.GetCurrentConditions();
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer.Dispose();
+    }
+
+}

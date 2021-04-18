@@ -1,0 +1,68 @@
+﻿@using System.Timers
+@inject AccuWeatherApi AccuWeatherApi
+@implements IDisposable
+
+@if (FiveDaysForecasts != null)
+{
+    <div>
+        <div>
+            @foreach (Forecast daysForecast in FiveDaysForecasts)
+            {
+                if (daysForecast != null)
+                {
+                    <div class="row">
+                        <div class="col">
+                            @daysForecast.Day.ToString("ddd")
+                        </div>
+                        <div class="col text-right">
+                            <img src="@daysForecast.DescriptionIconLocation"/>
+                        </div>
+                        <div class="col text-right">
+                            @daysForecast.High?.Value
+                            &#176;@daysForecast.High?.Unit
+                        </div>
+                        <div class="col text-right">
+                            @daysForecast.Low?.Value
+                            &#176;@daysForecast.Low?.Unit
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private Timer _timer;
+    public List<Forecast> FiveDaysForecasts { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FiveDaysForecasts = await AccuWeatherApi.GetForecasts(5);
+
+        _timer = new Timer {Interval = 3600000};
+        _timer.Elapsed += async (sender, arguments)
+            => await UpdateFiveDayForecast(sender, arguments);
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private async Task UpdateFiveDayForecast(object sender, ElapsedEventArgs e)
+    {
+        try
+        {
+            FiveDaysForecasts = await AccuWeatherApi.GetForecasts(5);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer.Dispose();
+    }
+
+}

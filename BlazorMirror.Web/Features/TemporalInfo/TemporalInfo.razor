@@ -1,0 +1,43 @@
+﻿@using System.Timers
+@implements IDisposable
+
+
+<div>
+    <div class="date">@DateTimeNow.ToString("D")</div>
+    <div class="time">@DateTimeNow.ToString("t")</div>
+</div>
+
+@code {
+    private Timer _timer;
+    public DateTime DateTimeNow { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        DateTimeNow = DateTime.Now;
+
+        _timer = new Timer { Interval = 1000 };
+        _timer.Elapsed += UpdateTimeDisplay;
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private void UpdateTimeDisplay(Object source, ElapsedEventArgs e)
+    {
+        try
+        {
+            DateTimeNow = DateTime.Now;
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer.Dispose();
+    }
+
+}

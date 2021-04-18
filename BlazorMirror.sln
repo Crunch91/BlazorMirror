@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorMirror.Web", "BlazorMirror.Web\BlazorMirror.Web.csproj", "{B41EFA72-1AEE-4702-A967-0CA14EAEFFD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeatherMap4NET", "..\..\github\OpenWeatherMap4NET\src\OpenWeatherMap4NET.csproj", "{3551034B-03D0-48C1-9531-21CC9F1634BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B41EFA72-1AEE-4702-A967-0CA14EAEFFD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41EFA72-1AEE-4702-A967-0CA14EAEFFD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41EFA72-1AEE-4702-A967-0CA14EAEFFD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41EFA72-1AEE-4702-A967-0CA14EAEFFD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3551034B-03D0-48C1-9531-21CC9F1634BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3551034B-03D0-48C1-9531-21CC9F1634BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3551034B-03D0-48C1-9531-21CC9F1634BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3551034B-03D0-48C1-9531-21CC9F1634BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ADFD063A-F197-4AEC-BB0A-2AF2468E19C6}
+	EndGlobalSection
+EndGlobal
